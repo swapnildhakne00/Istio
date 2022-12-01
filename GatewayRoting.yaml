@@ -4,13 +4,13 @@ metadata:
   name: ingress-gateway-configuration
 spec:
   selector:
-    istio: ingressgateway # use Istio default gateway implementation
+    istio: ingressgateway # this label is applied on gateway POD
   servers:
-  - port:
-      number: 80
+  - port:              # port you want GW to listen on
+      number: 80   
       name: http
       protocol: HTTP
-    hosts:
+    hosts:               #to specify scope of this GW to specific websites. "*" can be used as a wildcard
     - "*.fleetman.com"   # Domain name of the external website
     - "fleetman.com"
 ---
@@ -20,7 +20,7 @@ metadata:
   name: fleetman-webapp
   namespace: default
 spec:
-  hosts:      # which incoming host are we applying the proxy rules to???
+  hosts:      # which incoming host are we applying the proxy rules to
     - "fleetman.com"
   gateways:
     - ingress-gateway-configuration
