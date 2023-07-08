@@ -1,0 +1,43 @@
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  creationTimestamp: "2023-07-04T10:39:20Z"
+  generation: 1
+  name: ingress-gateway-configuration
+  namespace: myapps
+  resourceVersion: "22511704"
+  uid: cdcc5f53-d460-4029-8045-cc3aa629b09c
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+  - hosts:
+    - '*'
+    port:
+      name: http
+      number: 80
+      protocol: HTTP
+
+
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  creationTimestamp: "2023-07-04T10:39:21Z"
+  generation: 1
+  name: nginx-vs
+  namespace: myapps
+  resourceVersion: "22511705"
+  uid: a8e80b8e-00c4-441f-a381-99aeb5912552
+spec:
+  gateways:
+  - ingress-gateway-configuration
+  hosts:
+  - '*'
+  http:
+  - route:
+    - destination:
+        host: nginxx
+
+
+# NOTE:
+please edit istio-ingressgateway service in istio-system NS and assign it a external IP addess.
